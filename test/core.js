@@ -1,8 +1,12 @@
+var util = require('util');
+var Lg = require('lg');
+
+var log = new Lg({log2console:true, logLevel:1000});
+
 var nAPI = require('../lib/napi.js');
 
-
 console.deb = function(obj) {
-	var debug = util.inspect(api, { showHidden: true, depth: null, colors: true });
+	var debug = util.inspect(obj, { showHidden: true, depth: null, colors: true });
 	console.log(debug);
 };
 
@@ -46,7 +50,7 @@ function mongodb_specifiers_get_byId(resource, document, moreOptions, callback) 
 		limit: (moreOptions.limit || 1)
 	};
 	var fields = [];
-	resource.adaptors.mongodb.get(query, fields, options).toArray(defaultCallbacks.mongodb.get);
+	resource._adaptors.mongodb.get(query, fields, options).toArray(defaultCallbacks.mongodb.get);
 };
 
 function mongodb_callbacks_get() {
@@ -63,7 +67,7 @@ function memory_specifiers_get_byId(resource, document, moreOptions, callback) {
 		limit: (moreOptions.limit || 1)
 	};
 	var fields = [];
-	return resource.adaptors.memory.get(query,defaultCallbacks.memory.get);
+	return resource._adaptors.memory.get(query,defaultCallbacks.memory.get);
 };
 
 function memory_callbacks_get() {
@@ -119,7 +123,7 @@ var demoReq = {
 	resource: 'users',
 	method: 'get',
 	specifier: 'byId',
-	resourceVersion: '1',
+	resourceVersion: '1.0.0',
 	document: {
 		_id: -1
 	}
@@ -128,7 +132,7 @@ var demoRes = {
 };
 // api.run(demoReq,	demoRes,	function() {console.log('done');} );
 
-console.log(api);
+var a = log.njson(api, 'napi_init');
 
 // api.users.get.byId();
 
@@ -160,7 +164,3 @@ jQuery.ajax(
 // --> try redo with api not being an instantiatable object, but a 'simple' middleware function that creates a apiCall object instance,
 // hence, apiCall will get resources ... and become the wrapping scope for everything in that one call 
 
-
-// mu.users.get.byId.action
-// 
-// realm.resource.method.specifier.layer
