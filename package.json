@@ -10,25 +10,16 @@
   },
   "dependencies": {
 		"mime": "latest",
-		"parted": "latest",
-		"response-send": "latest",
-		"response-redirect": "latest",
-		"router": "latest",
-		"websocket": "latest"
-		"async": "latest".
-    "ua-parser": "latest",
-    "escalator": "latest",
-    "geoip-lite": "latest",
+		"async": "latest",
     "heapdump": "0.2.7",
     "redis": "latest",
     "hiredis": "latest",
     "redistributor": "latest",
     "json-stringify-safe": "latest",
     "lg": "latest",
-    "minions": "latest",
     "mongodb": "latest",
-    "obsy": "latest",
     "r2d2": "git://github.com/Klab-Berlin/r2d2.git#master",
+	  "q": "latest"
   },
   "devDependencies": {
     "mocha": "1.13.0",
