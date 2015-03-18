@@ -1,89 +1,15 @@
 var util = require('util');
-var Lg = require('lg');
-
-var log = new Lg({log2console:true, logLevel:1000});
-
 var nAPI = require('../lib/napi.js');
+
+var Lg = require('lg'); 
+var log = new Lg({log2console:true, logLevel:1000});
 
 console.deb = function(obj) {
 	var debug = util.inspect(obj, { showHidden: true, depth: null, colors: true });
 	console.log(debug);
 };
 
-var defaultSpecifiers = {};
-defaultSpecifiers.mongodb = {};
-defaultSpecifiers.mongodb.byId = mongodb_specifiers_get_byId;
-defaultSpecifiers.memory = {};
-defaultSpecifiers.memory.byId = memory_specifiers_get_byId;
 
-var defaultCallbacks = {};
-defaultCallbacks.mongodb = {};
-defaultCallbacks.mongodb.get = mongodb_callbacks_get;
-defaultCallbacks.memory = {};
-defaultCallbacks.memory.get = memory_callbacks_get;
-
-var defaultAllows = {};
-defaultAllows.userIsLoggedIn = function(thisApiCall) {
-	console.log(this);
-	return (thisApiCall.get('user').isVirtual === false);
-};
-
-function createAllow(rules) {
-	// TODO:  should make this asyncable ?
-	return function(user) {
-		var allow = true;
-		for (var i=0; i<rules.length; i+=1) {
-			allow = rules[i](user);
-			if (allow === false) {
-				return false;
-			}
-		}
-		return true;
-	};
-};
-
-function mongodb_specifiers_get_byId(resource, document, moreOptions, callback) {
-	var query = {
-		_id: document._id
-	};
-	var options = {
-		limit: (moreOptions.limit || 1)
-	};
-	var fields = [];
-	resource._adaptors.mongodb.get(query, fields, options).toArray(defaultCallbacks.mongodb.get);
-};
-
-function mongodb_callbacks_get() {
-	// execute from the driver-derived perspective
-	callback.apply(this, arguments);
-};
-
-
-function memory_specifiers_get_byId(resource, document, moreOptions, callback) {
-	var query = {
-		_id: document._id
-	};
-	var options = {
-		limit: (moreOptions.limit || 1)
-	};
-	var fields = [];
-	return resource._adaptors.memory.get(query,defaultCallbacks.memory.get);
-};
-
-function memory_callbacks_get() {
-	// execute from the driver-derived perspective
-	callback.apply(this, arguments);
-};
-
-var adaptorConfig_mongoDB_base = {
-	type: 'mongodb',
-	host: '127.0.0.1',
-	port: 29097,
-	user: null,
-	pass: null,
-	db: 'napi'
-};
-// todo: use extend here
 var adapterConfig_mongoDB_users = {
 	type: 'mongodb',
 	host: '127.0.0.1',
@@ -94,29 +20,19 @@ var adapterConfig_mongoDB_users = {
 	collection: 'users'
 };
 
-var adapterConfig_memory_users = {
-	type: 'memory',
-	collection: 'users'
-};
 
-
-
+var myAllow = nAPI.Utils.allows.createWhitelistAllow([nAPI.Defaults.allows.userIsLoggedIn]);
 
 var api = new nAPI.ApiCore('testapi');
-api._addResource('users', [ adapterConfig_memory_users ]);
+api._addResource('users', [ adapterConfig_mongoDB_users ]);
 api.users.get._addSpecifier(
 	'byId',
-	{
-		// allow: createAllow([defaultAllows.userIsLoggedIn]),
-		allow: [ defaultAllows.userIsLoggedIn ],
-		action: defaultSpecifiers.mongodb.byId
-	}
-);
+	[
+		[ 'allow', myAllow ],
+		[ 'action', nAPI.Defaults.mongoDB.actions.get.byId ]
+	]
+);		
 
-// console.deb(api);
-// console.log('-----------------------------------');
-// console.log(api.users.get);
-// console.log(api.users.get.byId);
 
 // how to run a specifier query (only, not other layers) internally
 var demoReq = {
@@ -134,7 +50,14 @@ var demoRes = {
 
 var a = log.njson(api, 'napi_init');
 
-// api.users.get.byId();
+
+
+// console.deb(nAPI.Defaults);
+console.log('-----------------------------------');
+// console.log(api.users.get);
+// console.deb(api.users.get.byId);
+
+api.users.get.byId({ _id:'123' }, { limit:1 }, function(err, results) { console.log('got answer:', err, results); });
 
 // api.users.get.byId.action({ _id:'123' }, { limit:1 }, function(err, results) {  });
 
