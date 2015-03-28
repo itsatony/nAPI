@@ -8,6 +8,7 @@
     "type": "git",
     "url": "git://github.com/itsatony/nAPI.git"
   },
+	"main": "lib/napi",		
   "dependencies": {
 		"mime": "latest",
 		"async": "latest",
@@ -18,6 +19,7 @@
     "json-stringify-safe": "latest",
     "lg": "latest",
     "mongodb": "latest",
+    "expect": "latest",
     "r2d2": "git://github.com/Klab-Berlin/r2d2.git#master",
 	  "q": "latest"
   },

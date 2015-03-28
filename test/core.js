@@ -1,5 +1,6 @@
 var util = require('util');
 var Q = require('q');
+var expect = require('expect');
 var nAPI = require('../lib/napi.js');
 
 var Lg = require('lg'); 
@@ -36,8 +37,46 @@ function ready() {
 		[
 			[ 'allow', myAllow ],
 			[ 'action', nAPI.Adaptors.mongoDB.actions.get.byId ]
-		]
+		],
+		'Get a User by their unique ID',
+		{
+			_id: {
+				description: 'a stringified mongoDB type id. user._id is the field name.',
+				type: 'string',
+				optional: false,
+				example: '4f39e4f12ce81f09340002b9',
+				default: function() {
+					return '-1';
+				},
+				validate: function(value) {
+					try {
+						expect(value).to.be.a('string');
+						expect(value).to.match(/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i);
+					} catch(err) {
+						return err;
+					}
+					return value;
+				}
+			}
+		}
 	);
-	api.users.get.byId({ _id:'123' }, { limit:1 }, function(err, results) { console.log('--->>>got answer:', err, results); });
+	api.users.get.byId({ _id: '4f39e4f12ce81f09340002b9' }, { limit:1 }, function(err, results) { console.log('--->>>got answer:', err, results); });
 	var a = log.njson(api, 'napi_init');
+	console.log(JSON.stringify(api.getDocumentation(), null, '  '));
 };
+
+
+/*
+
+action layer --[results]--> 
+	{A} answer layer with filter specific for requester --[answer]--> requester(===outlet)
+	{B} emit results
+		{listenToResults} Propagator -> send results to channel of rabbitMQ
+			??? how to define the channel??
+				[resource]_[uid_of_modified_item]
+				users_12345
+				chat_channelid
+
+*/
+
+
