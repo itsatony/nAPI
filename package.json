@@ -12,7 +12,6 @@
   "dependencies": {
 		"mime": "latest",
 		"async": "latest",
-    "heapdump": "0.2.7",
     "redis": "latest",
     "hiredis": "latest",
     "redistributor": "latest",
