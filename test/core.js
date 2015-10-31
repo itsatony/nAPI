@@ -29,6 +29,12 @@ nAPI.ApiCore('testapi', null)
 	.then(
 		function(myApi) {
 			api = myApi;
+			api.events.on(
+				'metaEventEmitted',
+				function() {
+					console.log('api.metaEventEmitted', arguments['0'], arguments['1']);
+				}
+			);
 			return api._addResource('users', [ adapterConfig_mongoDB_users ]);
 		}
 	).then(
