@@ -1,6 +1,6 @@
 var util = require('util');
 var Q = require('q');
-var expect = require('expect');
+var expect = require('expect.js');
 var nAPI = require('../lib/napi.js');
 
 
