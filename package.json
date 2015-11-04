@@ -8,6 +8,9 @@
     "type": "git",
     "url": "git://github.com/itsatony/nAPI.git"
   },
+	"scripts": {
+		
+	},
 	"main": "lib/napi",		
   "dependencies": {
     "redis": "latest",
@@ -19,7 +22,10 @@
 	  "q": "latest"
   },
   "devDependencies": {
-    "mocha": "1.13.0",
-    "should": "2.0.1"
+		"chai": "*",
+		"sinon-chai": "*",
+    "mocha": "*",
+		"expect.js": "*",
+		"chai-as-promised": "*"
   }
 }
