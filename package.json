@@ -9,7 +9,7 @@
     "url": "git://github.com/itsatony/nAPI.git"
   },
 	"scripts": {
-		"test": "make test"		
+		"test": "mocha test/test.js"		
 	},
 	"main": "lib/napi",		
   "dependencies": {
