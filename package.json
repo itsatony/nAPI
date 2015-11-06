@@ -9,12 +9,11 @@
     "url": "git://github.com/itsatony/nAPI.git"
   },
 	"scripts": {
-		
+		"test": "mocha test/core.js"		
 	},
 	"main": "lib/napi",		
   "dependencies": {
     "redis": "latest",
-    "hiredis": "latest",
     "json-stringify-safe": "latest",
     "mongodb": "latest",
     "expect.js": "latest",

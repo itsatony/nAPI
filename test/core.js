@@ -49,8 +49,8 @@ describe(
 							api.events.on(
 								'metaEventEmitted',
 								function() {
-									var b = arguments['2'] ; //(typeof arguments['2'] !== 'object') ? arguments['2'] : 'nothing';
-									console.log('api.metaEventEmitted', arguments['0'], arguments['1'], (typeof b[0] !== 'object' && typeof b[0] !== 'undefined' ) ? b[0] : '');
+									// var b = arguments['2'] ; //(typeof arguments['2'] !== 'object') ? arguments['2'] : 'nothing';
+									// console.log('api.metaEventEmitted', arguments['0'], arguments['1'], (typeof b[0] !== 'object' && typeof b[0] !== 'undefined' ) ? b[0] : '');
 								}
 							);
 						}
