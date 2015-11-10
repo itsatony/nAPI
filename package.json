@@ -17,7 +17,6 @@
     "json-stringify-safe": "latest",
     "mongodb": "latest",
     "expect.js": "latest",
-		"joi": "latest",
 	  "q": "latest"
   },
   "devDependencies": {
