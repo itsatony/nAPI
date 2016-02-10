@@ -1,28 +1,30 @@
 {
   "name": "napi",
   "description": "a api framework for nodejs",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Toni Wagner <i@itsatony.com>",
   "engine": "node >= 0.10",
   "repository": {
     "type": "git",
     "url": "git://github.com/itsatony/nAPI.git"
   },
+	"scripts": {
+		"test": "mocha test/test.js"		
+	},
 	"main": "lib/napi",		
   "dependencies": {
-		"mime": "latest",
-		"async": "latest",
     "redis": "latest",
-    "hiredis": "latest",
-    "redistributor": "latest",
     "json-stringify-safe": "latest",
     "mongodb": "latest",
     "expect.js": "latest",
-    "r2d2": "git://github.com/Klab-Berlin/r2d2.git#master",
 	  "q": "latest"
   },
   "devDependencies": {
-    "mocha": "1.13.0",
-    "should": "2.0.1"
+		"chai": "*",
+		"sinon": "*",
+		"sinon-chai": "*",
+    "mocha": "*",
+		"expect.js": "*",
+		"chai-as-promised": "*"
   }
 }
